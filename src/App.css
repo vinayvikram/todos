@@ -1,0 +1,14 @@
+.App {
+  background-color: gray;
+  height: 100vh;
+  display: flex;
+}
+
+.todos {
+  width: 50%;
+  overflow-y: auto;
+}
+
+.user-detail {
+  width: 50%;
+}
