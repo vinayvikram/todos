@@ -5,37 +5,88 @@ import {
   TableBody,
   TableRow,
   TableCell,
+  Button,
+  TextField,
+  IconButton,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 
-const Todos = ({ selectUser }) => {
-  const [todoData, setData] = useState([
-    { id: "1", Title: "title", Status: "compoleted", Action: "View" },
-  ]);
+const Todos = ({ allTodoData, query, changeQuery, selectUser }) => {
+  const [todoData, setTodoData] = useState([]);
 
   useEffect(() => {
-    const apiUrl = "https://jsonplaceholder.typicode.com/todos";
+    const filter = (query) => {
+      let filteredData = [];
 
-    const fetchData = async () => {
-      const res = await fetch(apiUrl);
-      const data = await res.json();
-      setData(data);
+      for (let todo of allTodoData) {
+        if (String(todo.id).includes(query)) {
+          filteredData.push(todo);
+        } else if (todo.title.includes(query)) {
+          filteredData.push(todo);
+        } else {
+          if (todo.completed && "Complete".includes(query)) {
+            filteredData.push(todo);
+          } else if (!todo.completed && "Incomplete".includes(query)) {
+            filteredData.push(todo);
+          }
+        }
+      }
+
+      return filteredData;
     };
 
-    fetchData();
-  }, []);
+    if (query) {
+      setTodoData(filter(query));
+    } else {
+      setTodoData(allTodoData);
+    }
+  }, [allTodoData, query]);
 
-  console.log(todoData);
+  const toggleSort = (e) => {
+    let reversedData = todoData.slice().reverse();
+    setTodoData(reversedData);
+    if (e.target.innerText === "↓") {
+      e.target.innerText = "↑";
+    } else {
+      e.target.innerText = "↓";
+    }
+  };
 
   return (
     <div className="todos">
-      <TableContainer>
-        <Table>
+      <h1 style={{ display: "inline-block" }}>Todos</h1>
+      <TextField
+        type="search"
+        variant="outlined"
+        className="inputRounded"
+        placeholder="search"
+        onChange={(event) => {
+          changeQuery(event.target.value);
+        }}
+        sx={{
+          float: "right",
+          width: "40%",
+        }}
+      ></TextField>
+      <TableContainer sx={{ maxHeight: "80%", border: "1px solid black" }}>
+        <Table stickyHeader>
           <TableHead>
-            <TableCell>Todo ID</TableCell>
-            <TableCell>Title</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell>Action</TableCell>
+            <TableCell sx={{ width: "80px", fontWeight: "bold" }}>
+              ToDo ID
+              <IconButton
+                onClick={toggleSort}
+                sx={{
+                  fontSize: "30px",
+                  float: "right",
+                }}
+                size="small"
+              >
+                ↓
+              </IconButton>
+            </TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Title</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Status</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Action</TableCell>
           </TableHead>
           <TableBody>
             {todoData.map((row) => (
@@ -47,10 +98,24 @@ const Todos = ({ selectUser }) => {
                 </TableCell>
                 <TableCell
                   onClick={() => {
-                    selectUser(row.userId);
+                    selectUser({
+                      todo_id: row.id,
+                      todo_title: row.title,
+                      id: row.userId,
+                    });
+                  }}
+                  sx={{
+                    width: "100px",
                   }}
                 >
-                  <button>View User</button>
+                  <Button
+                    sx={{
+                      border: "2px solid black",
+                      color: "black",
+                    }}
+                  >
+                    View User
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}

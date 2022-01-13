@@ -1,11 +1,11 @@
-import { Paper } from "@mui/material";
+import { Paper, Stack } from "@mui/material";
 import { useState, useEffect } from "react";
 
-const UserDetail = ({ id }) => {
+const UserDetail = ({ todo_id, todo_title, id }) => {
   const [user, setUser] = useState({
-    id: "1",
-    name: "Name",
-    email: "email@email.com",
+    id: "",
+    name: "",
+    email: "",
   });
 
   useEffect(() => {
@@ -18,13 +18,33 @@ const UserDetail = ({ id }) => {
     };
 
     fetchData();
-  }, [id]);
+  }, [todo_id, todo_title, id]);
   return (
     <div className="user-detail">
-      <Paper elevation={5}>
-        <h5>UserId : {user.id}</h5>
-        <h5>Name : {user.name}</h5>
-        <h5>Email : {user.email}</h5>
+      <h1>User Detail</h1>
+      <Paper elevation={5} sx={{ padding: "20px", backgroundColor: "#FDFCDC" }}>
+        <Stack direction="column" spacing={5}>
+          <Stack direction="row">
+            <span>ToDo ID</span>
+            <div>{todo_id}</div>
+          </Stack>
+          <Stack direction="row">
+            <span>ToDo Title</span>
+            <div>{todo_title}</div>
+          </Stack>
+          <Stack direction="row">
+            <span>User ID </span>
+            <div>{user.id}</div>
+          </Stack>
+          <Stack direction="row">
+            <span>Name</span>
+            <div>{user.name}</div>
+          </Stack>
+          <Stack direction="row">
+            <span>Email</span>
+            <div>{user.email}</div>
+          </Stack>
+        </Stack>
       </Paper>
     </div>
   );
