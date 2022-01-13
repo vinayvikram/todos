@@ -71,26 +71,28 @@ const Todos = ({ allTodoData, query, changeQuery, selectUser }) => {
       <TableContainer sx={{ maxHeight: "80%", border: "1px solid black" }}>
         <Table stickyHeader>
           <TableHead>
-            <TableCell sx={{ width: "80px", fontWeight: "bold" }}>
-              ToDo ID
-              <IconButton
-                onClick={toggleSort}
-                sx={{
-                  fontSize: "30px",
-                  float: "right",
-                }}
-                size="small"
-              >
-                ↓
-              </IconButton>
-            </TableCell>
-            <TableCell sx={{ fontWeight: "bold" }}>Title</TableCell>
-            <TableCell sx={{ fontWeight: "bold" }}>Status</TableCell>
-            <TableCell sx={{ fontWeight: "bold" }}>Action</TableCell>
+            <TableRow>
+              <TableCell sx={{ width: "80px", fontWeight: "bold" }}>
+                ToDo ID
+                <IconButton
+                  onClick={toggleSort}
+                  sx={{
+                    fontSize: "30px",
+                    float: "right",
+                  }}
+                  size="small"
+                >
+                  ↓
+                </IconButton>
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Title</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Status</TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>Action</TableCell>
+            </TableRow>
           </TableHead>
           <TableBody>
             {todoData.map((row) => (
-              <TableRow>
+              <TableRow key={row.id}>
                 <TableCell>{row.id}</TableCell>
                 <TableCell>{row.title}</TableCell>
                 <TableCell>

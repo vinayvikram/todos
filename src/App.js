@@ -15,12 +15,10 @@ function App() {
   useEffect(() => {
     const apiUrl = "https://jsonplaceholder.typicode.com/todos";
 
-    console.log("mounted");
-
     const fetchData = async () => {
       const res = await fetch(apiUrl);
       const fetchedData = await res.json();
-      console.log(fetchedData);
+
       setAppData({
         todoData: {
           allTodoData: fetchedData,

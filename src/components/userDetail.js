@@ -1,7 +1,7 @@
 import { Paper, Stack } from "@mui/material";
 import { useState, useEffect } from "react";
 
-const UserDetail = ({ todo_id, todo_title, id }) => {
+const UserDetail = ({ todo_id, todo_title, id = "" }) => {
   const [user, setUser] = useState({
     id: "",
     name: "",
@@ -19,6 +19,7 @@ const UserDetail = ({ todo_id, todo_title, id }) => {
 
     fetchData();
   }, [todo_id, todo_title, id]);
+
   return (
     <div className="user-detail">
       <h1>User Detail</h1>
